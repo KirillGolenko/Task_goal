@@ -24,7 +24,6 @@ export class CustomersService {
         },
       ],
     };
-    console.log(product, order, user);
     return customers;
   }
 }
