@@ -9,20 +9,20 @@ export class CustomersService {
     @Inject('USER_SERVICE') private clientUsers: ClientProxy,
   ) {}
 
-  async getCustomers() {
-    const order = await this.clientOrders.send('getOrder', '').toPromise();
+  async getCustomers(id) {
+    const order = await this.clientOrders.send('getOrder', '').toPromise(id);
     const product = await this.clientProduct.send('getProduct', '').toPromise();
     const user = await this.clientUsers.send('getUser', '').toPromise();
-
+    const orders = order.reduce((acc, item) => {
+      acc.push({
+        id: item.id,
+        productId: item.productId,
+        productTitle: product.title,
+      });
+    }, []);
     const customers = {
       customerName: user.name,
-      orders: [
-        {
-          id: order.id,
-          productId: order.productId,
-          productTitle: product.title,
-        },
-      ],
+      orders: orders,
     };
     return customers;
   }

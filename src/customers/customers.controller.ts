@@ -1,4 +1,4 @@
-import { Get } from '@nestjs/common';
+import { Get, Query } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 
@@ -7,7 +7,8 @@ export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
   @Get()
-  getCustomers() {
-    return this.customersService.getCustomers();
+  getCustomers(@Query() query) {
+    const { id } = query;
+    return this.customersService.getCustomers(id);
   }
 }
