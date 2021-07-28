@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 
@@ -7,12 +7,13 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @MessagePattern('getUser')
-  getOrders() {
-    return this.usersService.getUser();
+  getOrders(id: string) {
+    return this.usersService.getUser(id);
   }
 
   @Get()
-  getUser() {
-    return this.usersService.getUser();
+  getUser(@Query() query) {
+    const { id } = query;
+    return this.usersService.getUser(id);
   }
 }
