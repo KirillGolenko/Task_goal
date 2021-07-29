@@ -1,7 +1,6 @@
-import { Get } from '@nestjs/common';
+import { Get, Query } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
 import { OrdersService } from './orders.service';
 
 @Controller('orders')
@@ -9,12 +8,13 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @MessagePattern('getOrder')
-  getOrders(): Record<string, unknown> {
-    return this.ordersService.getOrders();
+  getOrders(id: string) {
+    return this.ordersService.getOrders(id);
   }
 
   @Get()
-  getAllOrders() {
-    return this.ordersService.getOrders();
+  getAllOrders(@Query() query) {
+    const { id } = query;
+    return this.ordersService.getOrders(id);
   }
 }

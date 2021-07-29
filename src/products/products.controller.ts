@@ -1,4 +1,5 @@
 import { Get } from '@nestjs/common';
+import { Query } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { ProductsService } from './products.service';
@@ -8,12 +9,13 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @MessagePattern('getProduct')
-  getOrders() {
-    return this.productsService.getProducts();
+  getOrders(id: string) {
+    return this.productsService.getProducts(id);
   }
 
   @Get()
-  getProducts() {
-    return this.productsService.getProducts();
+  getProducts(@Query() query) {
+    const { id } = query;
+    return this.productsService.getProducts(id);
   }
 }

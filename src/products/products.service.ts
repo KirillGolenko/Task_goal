@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository, Repository } from '@scalio-oss/nest-couchbase';
+import { Products } from 'src/entity/products.entity';
 
 @Injectable()
 export class ProductsService {
-  getProducts() {
-    const payload = {
-      id: 3,
-      title: 'milk',
-    };
+  constructor(
+    @InjectRepository(Products)
+    private readonly productRepository: Repository<Products>,
+  ) {}
 
-    return payload;
+  getProducts(id: string): Promise<Products> {
+    return this.productRepository.get(id);
   }
 }
