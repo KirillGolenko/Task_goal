@@ -20,10 +20,9 @@ export class CustomersService {
         productTitle: product.title,
       });
     }, []);
-    const customers = {
+    return {
       customerName: user.name,
       orders: orders,
     };
-    return customers;
   }
 }
