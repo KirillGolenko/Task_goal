@@ -11,9 +11,7 @@ export class CustomersService {
 
   async getCustomers(id) {
     const order = await this.clientOrders.send('getOrder', '').toPromise(id);
-    const product = await this.clientProduct
-      .send('getProduct', '')
-      .toPromise(order.productId);
+    const product = await this.clientProduct.send('getProduct', '').toPromise();
     const user = await this.clientUsers.send('getUser', '').toPromise();
     const orders = order.reduce((acc, item) => {
       acc.push({
@@ -22,10 +20,9 @@ export class CustomersService {
         productTitle: product.title,
       });
     }, []);
-    const customers = {
+    return {
       customerName: user.name,
       orders: orders,
     };
-    return customers;
   }
 }
